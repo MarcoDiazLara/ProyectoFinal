@@ -16,14 +16,18 @@ public class JDrones extends javax.swing.JFrame {
     public int num=0;
     private Dron []d = new Dron[10];
     public JDrones() {
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        
         initComponents();
         try{                                        // PASARLO a MENU
             ima = ImageIO.read(new File("mapaCU.png"));
         }catch(IOException e){e.printStackTrace();}
         ButtonGroup Algoritmo = new ButtonGroup();
+        Algoritmo.add(Nada);
         Algoritmo.add(Muteps);
         Algoritmo.add(Sem);
+        Algoritmo.add(var);
+        Algoritmo.add(Moni);
+        Algoritmo.add(Barr);
         panel= new DibujaDrones(ima,num);
         panel.setBounds(0, 0, 1345, 600);
         add(panel);
@@ -39,8 +43,12 @@ public class JDrones extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         Btncrea = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
+        Nada = new javax.swing.JRadioButtonMenuItem();
         Muteps = new javax.swing.JRadioButtonMenuItem();
         Sem = new javax.swing.JRadioButtonMenuItem();
+        var = new javax.swing.JRadioButtonMenuItem();
+        Moni = new javax.swing.JRadioButtonMenuItem();
+        Barr = new javax.swing.JRadioButtonMenuItem();
         jMenu1 = new javax.swing.JMenu();
         borra = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -68,7 +76,10 @@ public class JDrones extends javax.swing.JFrame {
 
         jMenu5.setText("Sincronizacion");
 
-        Muteps.setSelected(true);
+        Nada.setSelected(true);
+        Nada.setText("Ningun metodo");
+        jMenu5.add(Nada);
+
         Muteps.setText("Mutex");
         jMenu5.add(Muteps);
 
@@ -79,6 +90,15 @@ public class JDrones extends javax.swing.JFrame {
             }
         });
         jMenu5.add(Sem);
+
+        var.setText("Variable de condicion");
+        jMenu5.add(var);
+
+        Moni.setText("Monitores");
+        jMenu5.add(Moni);
+
+        Barr.setText("Barreras");
+        jMenu5.add(Barr);
 
         jMenuBar1.add(jMenu5);
 
@@ -355,11 +375,25 @@ public class JDrones extends javax.swing.JFrame {
         try{
             for(int j = 0;j < f;j++){
                 
-                if(Muteps.isSelected())
-                d[j].setAlgoritmo(1);
+                if(Nada.isSelected()){
+                d[j].setAlgoritmo(0);
+                }
                 
-                if(Sem.isSelected())
+                if(Muteps.isSelected()){
+                d[j].setAlgoritmo(1);
+                }
+                if(Sem.isSelected()){
                 d[j].setAlgoritmo(2);
+                }
+                if(var.isSelected()){
+                d[j].setAlgoritmo(3);
+                }
+                if(Moni.isSelected()){
+                d[j].setAlgoritmo(4);
+                }
+                if(Barr.isSelected()){
+                d[j].setAlgoritmo(5);
+                }
                 
                 d[j].start();
             }
@@ -390,8 +424,11 @@ public class JDrones extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JRadioButtonMenuItem Barr;
     private javax.swing.JMenuItem Btncrea;
+    private javax.swing.JRadioButtonMenuItem Moni;
     private javax.swing.JRadioButtonMenuItem Muteps;
+    private javax.swing.JRadioButtonMenuItem Nada;
     private javax.swing.JRadioButtonMenuItem Sem;
     private javax.swing.JMenuItem borra;
     private javax.swing.JMenu jMenu1;
@@ -401,5 +438,6 @@ public class JDrones extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JRadioButtonMenuItem var;
     // End of variables declaration//GEN-END:variables
 }

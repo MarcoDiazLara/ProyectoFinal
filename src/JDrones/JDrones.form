@@ -42,9 +42,14 @@
             <Property name="text" type="java.lang.String" value="Sincronizacion"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JRadioButtonMenuItem" name="Muteps">
+            <MenuItem class="javax.swing.JRadioButtonMenuItem" name="Nada">
               <Properties>
                 <Property name="selected" type="boolean" value="true"/>
+                <Property name="text" type="java.lang.String" value="Ningun metodo"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JRadioButtonMenuItem" name="Muteps">
+              <Properties>
                 <Property name="text" type="java.lang.String" value="Mutex"/>
               </Properties>
             </MenuItem>
@@ -55,6 +60,21 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SemActionPerformed"/>
               </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JRadioButtonMenuItem" name="var">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Variable de condicion"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JRadioButtonMenuItem" name="Moni">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Monitores"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JRadioButtonMenuItem" name="Barr">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Barreras"/>
+              </Properties>
             </MenuItem>
           </SubComponents>
         </Menu>
