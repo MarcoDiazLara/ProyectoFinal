@@ -75,22 +75,21 @@ public class Dron extends Thread{
             case 2:
                      while(true){
                       try{   
-                                s.acquire();
+                        s.acquire();
                       }catch(InterruptedException e1){}
 
-                                y.setY(y.getY()+b);
-                                x.setX(x.getX()+a);
+                        y.setY(y.getY()+b);
+                        x.setX(x.getX()+a);
 
-                     if(x.getX()==X || x.getX()==mX){
-                        a=-a;
-                     }
-                    if(y.getY()==Y || y.getY()==mY){
-                        b=-b;
-                     }
+                        if(x.getX()==X || x.getX()==mX){
+                            a=-a;
+                        }
+                        if(y.getY()==Y || y.getY()==mY){
+                            b=-b;
+                        }
                      panel.ActuaslizaXY(x,y,Dron);
                      panel.repaint();
                      s.release();
-                     
                     try{
                     Thread.sleep(5);
                     }catch(Exception e){e.printStackTrace();}
