@@ -33,6 +33,25 @@ public class Dron extends Thread{
     public synchronized void run(){
        
         switch(getAlgoritmo()){
+            
+            case 0:
+                while(true){
+                    y.setY(y.getY()+b);
+                    x.setX(x.getX()+a);        
+                    if(x.getX()==X || x.getX()==mX){
+                       a=-a;
+                    }
+                    if(y.getY()==Y || y.getY()==mY){
+                       b=-b;
+                    }
+                    panel.ActuaslizaXY(x,y,Dron);
+                    panel.repaint();
+                    try{
+                    Thread.sleep(5);
+                    }catch(Exception e){e.printStackTrace();}    
+                    
+                }
+            
             case 1:
                      while(true){
                          try{
@@ -55,9 +74,10 @@ public class Dron extends Thread{
                 }
             case 2:
                      while(true){
-                         try{
-                            
+                      try{   
                                 s.acquire();
+                      }catch(InterruptedException e1){}
+
                                 y.setY(y.getY()+b);
                                 x.setX(x.getX()+a);
 
@@ -70,9 +90,20 @@ public class Dron extends Thread{
                      panel.ActuaslizaXY(x,y,Dron);
                      panel.repaint();
                      s.release();
+                     
+                    try{
                     Thread.sleep(5);
                     }catch(Exception e){e.printStackTrace();}
                 }
+            
+            case 3:
+            
+                
+            case 4:
+            
+            
+            case 5:
+                
         }
        
 
