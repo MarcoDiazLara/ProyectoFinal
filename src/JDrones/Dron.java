@@ -5,6 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.Condition;
 public class Dron extends Thread{
     private MiX x;
     private MiY y;
@@ -18,7 +19,10 @@ public class Dron extends Thread{
     private int Dron;
     private int Algoritmo = 0;
     private Semaphore s = new Semaphore(1);
+    private Lock Vcondi;
+    private Condition condi;
     private Lock mutex;
+    private Lock mutexv;
     Dron(MiX x, MiY y, DibujaDrones panel, int mX, int mY,int Dron){
         this.x=x;
         this.y=y;
@@ -29,12 +33,16 @@ public class Dron extends Thread{
         this.mY=y.getY();
         this.Dron=Dron;
         mutex = new ReentrantLock();
+        mutexv = new ReentrantLock();
+        Vcondi = new ReentrantLock();
+        condi = Vcondi.newCondition();
+        
     }
     public synchronized void run(){
        
         switch(getAlgoritmo()){
             
-            case 0:
+            case 0: //Ningun metodo de sincronizacion
                 while(true){
                     y.setY(y.getY()+b);
                     x.setX(x.getX()+a);        
@@ -47,12 +55,12 @@ public class Dron extends Thread{
                     panel.ActuaslizaXY(x,y,Dron);
                     panel.repaint();
                     try{
-                    Thread.sleep(5);
+                        Thread.sleep(5);
                     }catch(Exception e){e.printStackTrace();}    
                     
                 }
             
-            case 1:
+            case 1: //Mutex
                      while(true){
                          try{
                             if(mutex.tryLock()){
@@ -69,10 +77,10 @@ public class Dron extends Thread{
                      }
                      panel.ActuaslizaXY(x,y,Dron);
                      panel.repaint();
-                    Thread.sleep(5);
+                        Thread.sleep(5);
                     }catch(Exception e){e.printStackTrace();}
                 }
-            case 2:
+            case 2:  //Semaforos
                      while(true){
                       try{   
                         s.acquire();
@@ -91,17 +99,53 @@ public class Dron extends Thread{
                      panel.repaint();
                      s.release();
                     try{
-                    Thread.sleep(5);
+                        Thread.sleep(5);
                     }catch(Exception e){e.printStackTrace();}
                 }
             
-            case 3:
-            
+            case 3: //VAriable de condicion
+            while(true){
+            Vcondi.lock();
+            try{
+                condi.signal();
+                y.setY(y.getY()+b);
+                x.setX(x.getX()+a);        
+                if(x.getX()==X || x.getX()==mX){
+                   a=-a;
+                }
+                if(y.getY()==Y || y.getY()==mY){
+                   b=-b;
+                }
+                panel.ActuaslizaXY(x,y,Dron);
+                panel.repaint();
+            }catch(Exception e){
+            }
+            finally{
+                Vcondi.unlock();
+            }
+            try{
+                Thread.sleep(5);
+            }catch(Exception e){e.printStackTrace();} }
                 
-            case 4:
+            case 4: //Monitores
+                    while(true){
+                    synchronized(panel){
+                        y.setY(y.getY()+b);
+                        x.setX(x.getX()+a);        
+                        if(x.getX()==X || x.getX()==mX){
+                           a=-a;
+                        }
+                        if(y.getY()==Y || y.getY()==mY){
+                           b=-b;
+                        }
+                        panel.ActuaslizaXY(x,y,Dron);
+                        panel.repaint();
+                    }
+                    try{
+                        Thread.sleep(5);
+                    }catch(Exception e){e.printStackTrace();} }
             
-            
-            case 5:
+            case 5: //Barreras
                 
         }
        
